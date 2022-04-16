@@ -1,10 +1,8 @@
 import React from "react";
-import { useForm, Controller } from "react-hook-form";
-import { Input as AntdInput } from "antd";
-import { Typography } from 'antd';
+import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
-
+import { Typography } from 'antd';
 import "./Contact.css";
 
 const Contactvalidation = yup.object().shape({
@@ -15,7 +13,7 @@ const Contactvalidation = yup.object().shape({
 
 const Contact = () => {
     const { Title } = Typography;
-    const { control, handleSubmit, formState: { errors }, } = useForm({
+    const { register, handleSubmit, formState: { errors }, } = useForm({
         resolver: yupResolver(Contactvalidation)
     });
 
@@ -25,45 +23,31 @@ const Contact = () => {
 
     return (
         <form onSubmit={handleSubmit(onSubmit)}>
-
+        
             <Title level={2}>Contact Us</Title>
-            <label>Name</label>
-            <Controller
-                render={({ field }) => <AntdInput {...field} />}
-                name="name"
-                control={control}
-                defaultValue=""
-            />
-            {errors.name && <p>{errors.name.message}</p>}
-            <label>Subject</label>
-            <Controller
-                render={({ field }) => <AntdInput {...field} />}
-                name="subject"
-                control={control}
-                defaultValue=""
-            />
-            {errors.subject && <p>{errors.subject.message}</p>}
-            <label>Email</label>
-            <Controller
-                render={({ field }) => <AntdInput {...field} />}
-                name="email"
-                control={control}
-                defaultValue=""
-            />
-             {errors.email && <p>{errors.email.message}</p>}
-            <label>Description</label>
-            <Controller
-                render={({ field }) => <AntdInput {...field} />}
-                name="description"
-                control={control}
-                defaultValue=""
-            />
-
-
+            <div>
+                <label>Name</label>
+                <input {...register("name")} />
+                {errors.name && <p>{errors.name.message}</p>}
+            </div>
+            <div style={{ marginBottom: 10 }}>
+                <label>Subject</label>
+                <input {...register("subject")} />
+                {errors.subject && <p>{errors.subject.message}</p>}
+            </div>
+            <div>
+                <label>Email</label>
+                <input {...register("email")} />
+                {errors.email && <p>{errors.email.message}</p>}
+            </div>
+            <div>
+                <label>Description</label>
+                <input {...register("description")} />
+                {errors.description && <p>{errors.description.message}</p>}
+            </div>
             <input type="submit" />
         </form>
     );
-};
-
+}
 
 export default Contact
